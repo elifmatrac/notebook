@@ -1,4 +1,4 @@
-package com.dogus.notebook.web.response;
+package com.dogus.notebook.controller.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class
-AuthResponse {
-    private String jwt;
-    private String message;
-    private Boolean status;
+ResponseCreateUser {
+    private Long id;
+    private String name;
+    private String email;
 }

@@ -1,19 +1,20 @@
 package com.dogus.notebook.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.dogus.notebook.model.Note;
+import com.dogus.notebook.service.dto.NoteCreateInputDTO;
+import com.dogus.notebook.service.dto.NoteGetOutputDTO;
+import com.dogus.notebook.service.dto.NoteUpdateInputDTO;
 
 public interface NoteService {
 
-    Note save(Note note);
+    NoteGetOutputDTO save(NoteCreateInputDTO input);
 
-    Optional<Note> get(Long id);
+    NoteGetOutputDTO get(Long id);
 
     void delete(Long id);
 
-    List<Note> list();
+    List<NoteGetOutputDTO> list();
 
-    Note update(Long id, Note note);
+    NoteGetOutputDTO update(Long id, NoteUpdateInputDTO input);
 }

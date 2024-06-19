@@ -1,10 +1,11 @@
 package com.dogus.notebook.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.dogus.notebook.model.User;
+import com.dogus.notebook.repository.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

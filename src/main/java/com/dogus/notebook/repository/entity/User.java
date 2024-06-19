@@ -1,28 +1,24 @@
-package com.dogus.notebook.model;
-
-import java.time.LocalDate;
+package com.dogus.notebook.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "note")
-public class Note {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDate date;
-    private String title;
-    private String noteDescription;
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    private String name;
+    private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
+    private String password;
 }
