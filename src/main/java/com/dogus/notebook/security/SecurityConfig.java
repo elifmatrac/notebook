@@ -1,5 +1,8 @@
 package com.dogus.notebook.security;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,8 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.dogus.notebook.security.service.UserDetailsServiceImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +43,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         return http
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //        Set permissions on endpoints
@@ -49,6 +56,24 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        return new CorsConfigurationSource() {
+            @Override
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration ccfg = new CorsConfiguration();
+                ccfg.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                ccfg.setAllowedMethods(Collections.singletonList("*"));
+                ccfg.setAllowCredentials(true);
+                ccfg.setAllowedHeaders(Collections.singletonList("*"));
+                ccfg.setExposedHeaders(Arrays.asList("Authorization"));
+                ccfg.setMaxAge(3600L);
+                return ccfg;
+
+            }
+        };
+
     }
 
     @Bean
